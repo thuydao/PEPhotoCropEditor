@@ -14,12 +14,9 @@
 @property (nonatomic) PECropView *cropView;
 @property (nonatomic) UIActionSheet *actionSheet;
 
-- (void)commonInit;
-
 @end
 
 @implementation PECropViewController
-@synthesize rotationEnabled = _rotationEnabled;
 
 + (NSBundle *)bundle
 {
@@ -36,31 +33,6 @@
 static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 {
     return [[PECropViewController bundle] localizedStringForKey:key value:nil table:@"Localizable"];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
-}
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
-}
-
-- (void)commonInit {
-    self.rotationEnabled = YES;
 }
 
 #pragma mark -
@@ -82,14 +54,14 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.toolbar.translucent = NO;
-
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                           target:self
                                                                                           action:@selector(cancel:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                            target:self
                                                                                            action:@selector(done:)];
-
+    
     if (!self.toolbarItems) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                        target:nil
@@ -103,8 +75,6 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.navigationController.toolbarHidden = self.toolbarHidden;
     
     self.cropView.image = self.image;
-    
-    self.cropView.rotationGestureRecognizer.enabled = _rotationEnabled;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -126,7 +96,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return YES;
+    return NO;
 }
 
 #pragma mark -
@@ -172,27 +142,6 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.cropView.imageCropRect = imageCropRect;
 }
 
-- (BOOL)isRotationEnabled
-{
-    return _rotationEnabled;
-}
-
-- (void)setRotationEnabled:(BOOL)rotationEnabled
-{
-    _rotationEnabled = rotationEnabled;
-    self.cropView.rotationGestureRecognizer.enabled = _rotationEnabled;
-}
-
-- (CGAffineTransform)rotationTransform
-{
-    return self.cropView.rotation;
-}
-
-- (CGRect)zoomedCropRect
-{
-    return self.cropView.zoomedCropRect;
-}
-
 - (void)resetCropRect
 {
     [self.cropView resetCropRect];
@@ -214,9 +163,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 
 - (void)done:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:transform:cropRect:)]) {
-        [self.delegate cropViewController:self didFinishCroppingImage:self.cropView.croppedImage transform: self.cropView.rotation cropRect: self.cropView.zoomedCropRect];
-    } else if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:)]) {
+    if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:)]) {
         [self.delegate cropViewController:self didFinishCroppingImage:self.cropView.croppedImage];
     }
 }
@@ -286,3 +233,4 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 }
 
 @end
+

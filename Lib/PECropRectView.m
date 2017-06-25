@@ -177,7 +177,7 @@
 - (void)resizeControlViewDidResize:(PEResizeControl *)resizeControlView
 {
     self.frame = [self cropRectMakeWithResizeControlView:resizeControlView];
-        
+    
     if ([self.delegate respondsToSelector:@selector(cropRectViewEditingChanged:)]) {
         [self.delegate cropRectViewEditingChanged:self];
     }
@@ -193,6 +193,7 @@
 - (CGRect)cropRectMakeWithResizeControlView:(PEResizeControl *)resizeControlView
 {
     CGRect rect = self.frame;
+    rect.size.height = rect.size.width*self.fixedAspectRatio;
     
     if (resizeControlView == self.topEdgeView) {
         rect = CGRectMake(CGRectGetMinX(self.initialRect),
@@ -290,30 +291,31 @@
             }
         }
     }
-
+    
     CGFloat minWidth = CGRectGetWidth(self.leftEdgeView.bounds) + CGRectGetWidth(self.rightEdgeView.bounds);
     if (CGRectGetWidth(rect) < minWidth) {
         rect.origin.x = CGRectGetMaxX(self.frame) - minWidth;
         rect.size.width = minWidth;
     }
-
+    
     CGFloat minHeight = CGRectGetHeight(self.topEdgeView.bounds) + CGRectGetHeight(self.bottomEdgeView.bounds);
     if (CGRectGetHeight(rect) < minHeight) {
         rect.origin.y = CGRectGetMaxY(self.frame) - minHeight;
         rect.size.height = minHeight;
     }
-
+    
     if (self.fixedAspectRatio) {
         CGRect constrainedRect = rect;
-
+        
         if (CGRectGetWidth(rect) < minWidth) {
             constrainedRect.size.width = rect.size.height * (minWidth / rect.size.width);
         }
-
+        
         if (CGRectGetHeight(rect) < minHeight) {
             constrainedRect.size.height = rect.size.width * (minHeight / rect.size.height);
         }
-
+        
+        constrainedRect.size.height = constrainedRect.size.width * self.fixedAspectRatio;
         rect = constrainedRect;
     }
     
@@ -324,11 +326,11 @@
 {
     CGFloat width = CGRectGetWidth(rect);
     CGFloat height = CGRectGetHeight(rect);
-    if (width < height) {
-        height = width / self.fixedAspectRatio;
-    } else {
-        height = width * self.fixedAspectRatio;
-    }
+    //    if (width < height) {
+    //        height = width / self.fixedAspectRatio;
+    //    } else {
+    height = width * self.fixedAspectRatio;
+    //    }
     rect.size = CGSizeMake(width, height);
     
     return rect;
@@ -349,3 +351,4 @@
 }
 
 @end
+

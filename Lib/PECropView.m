@@ -109,6 +109,7 @@ static const CGFloat MarginLeft = 20.0f;
         rotationGestureRecognizer.delegate = self;
         _rotationGestureRecognizer = rotationGestureRecognizer;
         [self.scrollView addGestureRecognizer:rotationGestureRecognizer];
+    }
 }
 
 #pragma mark -

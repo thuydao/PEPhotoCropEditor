@@ -75,6 +75,11 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.navigationController.toolbarHidden = self.toolbarHidden;
     
     self.cropView.image = self.image;
+    
+    if (self.rotationEnabled)
+    {
+        self.cropView.disableRotattion = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -74,16 +74,11 @@ static const CGFloat MarginLeft = 20.0f;
     self.scrollView.clipsToBounds = NO;
     [self addSubview:self.scrollView];
     
-    if (!self.disableRotattion) {
-        UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
-        rotationGestureRecognizer.delegate = self;
-        _rotationGestureRecognizer = rotationGestureRecognizer;
-        [self.scrollView addGestureRecognizer:rotationGestureRecognizer];
-    }
-    
     self.cropRectView = [[PECropRectView alloc] init];
     self.cropRectView.delegate = self;
     [self addSubview:self.cropRectView];
+    
+    [self setDisableRotattion:self.disableRotattion];
     
     self.topOverlayView = [[UIView alloc] init];
     self.topOverlayView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4f];
@@ -100,6 +95,20 @@ static const CGFloat MarginLeft = 20.0f;
     self.bottomOverlayView = [[UIView alloc] init];
     self.bottomOverlayView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4f];
     [self addSubview:self.bottomOverlayView];
+}
+
+- (void)setDisableRotattion:(BOOL)disableRotattion
+{
+    if (disableRotattion && _rotationGestureRecognizer)
+    {
+        [self.scrollView removeGestureRecognizer:_rotationGestureRecognizer];
+    }
+    else
+    {
+        UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
+        rotationGestureRecognizer.delegate = self;
+        _rotationGestureRecognizer = rotationGestureRecognizer;
+        [self.scrollView addGestureRecognizer:rotationGestureRecognizer];
 }
 
 #pragma mark -

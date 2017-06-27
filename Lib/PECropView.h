@@ -17,7 +17,7 @@
 @property (nonatomic, readonly) CGRect zoomedCropRect;
 @property (nonatomic, readonly) CGAffineTransform rotation;
 @property (nonatomic, readonly) BOOL userHasModifiedCropArea;
-@property (nonatomic, readonly) BOOL disableRotattion;
+@property (nonatomic, assign) BOOL disableRotattion;
 
 @property (nonatomic) BOOL keepingCropAspectRatio;
 @property (nonatomic) CGFloat cropAspectRatio;

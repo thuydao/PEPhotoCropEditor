@@ -99,16 +99,16 @@ static const CGFloat MarginLeft = 20.0f;
 
 - (void)setDisableRotattion:(BOOL)disableRotattion
 {
-    if (disableRotattion && _rotationGestureRecognizer)
+    if (disableRotattion && self.rotationGestureRecognizer)
     {
         [self.scrollView removeGestureRecognizer:_rotationGestureRecognizer];
     }
     else
     {
-        UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
-        rotationGestureRecognizer.delegate = self;
-        _rotationGestureRecognizer = rotationGestureRecognizer;
-        [self.scrollView addGestureRecognizer:rotationGestureRecognizer];
+        self.rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
+        self.rotationGestureRecognizer.delegate = self;
+        
+        [self.scrollView addGestureRecognizer:self.rotationGestureRecognizer];
     }
 }
 

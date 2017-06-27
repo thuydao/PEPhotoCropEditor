@@ -27,7 +27,7 @@
 
 @property (nonatomic) CGFloat rotationAngle;
 
-@property (nonatomic, weak, readonly) UIRotationGestureRecognizer *rotationGestureRecognizer;
+@property (nonatomic, strong) UIRotationGestureRecognizer *rotationGestureRecognizer;
 
 - (void)resetCropRect;
 - (void)resetCropRectAnimated:(BOOL)animated;

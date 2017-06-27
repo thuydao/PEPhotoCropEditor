@@ -76,7 +76,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     
     self.cropView.image = self.image;
     
-    if (self.rotationEnabled)
+    if (!self.rotationEnabled)
     {
         self.cropView.disableRotattion = YES;
     }

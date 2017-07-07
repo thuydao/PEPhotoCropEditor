@@ -316,6 +316,11 @@
         }
         
         constrainedRect.size.height = constrainedRect.size.width * self.fixedAspectRatio;
+        if (constrainedRect.size.height < (CGRectGetHeight(self.initialRect) + resizeControlView.translation.y))
+        {
+            constrainedRect.size.height = CGRectGetHeight(self.initialRect) + resizeControlView.translation.y;
+            constrainedRect.size.width = constrainedRect.size.height/self.fixedAspectRatio;
+        }
         rect = constrainedRect;
     }
     
@@ -330,6 +335,7 @@
     //        height = width / self.fixedAspectRatio;
     //    } else {
     height = width * self.fixedAspectRatio;
+//    NSLog(@"current: %f vs expect: %f",height, CGRectGetHeight(self.initialRect) + resizeControlView.translation.y)
     //    }
     rect.size = CGSizeMake(width, height);
     

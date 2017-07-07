@@ -272,6 +272,8 @@ static const CGFloat MarginLeft = 20.0f;
 - (void)setCropRect:(CGRect)cropRect
 {
     [self zoomToCropRect:cropRect];
+    self.scrollView.minimumZoomScale = MAX(self.imageView.frame.size.height/cropRect.size.height, self.imageView.frame.size.width/cropRect.size.width);
+    NSLog(@"minimumZoomScale: %f",self.scrollView.minimumZoomScale);
 }
 
 - (CGRect)cropRect
